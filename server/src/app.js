@@ -95,10 +95,10 @@ app.use('/api', apiLimiter);
 
 app.use('/api', routes);
 
-// Serve the built React client (client/dist) at the root when present so a
+// Serve the built React client (repo-root/dist) at the root when present so a
 // single server shows the whole app (mirrors the Vercel SPA rewrite). API and
 // upload paths are excluded from the SPA fallback so they keep returning JSON.
-const clientDist = path.resolve(__dirname, '../../client/dist');
+const clientDist = path.resolve(__dirname, '../../dist');
 if (fs.existsSync(path.join(clientDist, 'index.html'))) {
   app.use(express.static(clientDist, { maxAge: '1h' }));
   app.get('*', (req, res, next) => {
