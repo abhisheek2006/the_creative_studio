@@ -22,7 +22,7 @@ export default defineConfig(({ command }) => {
       },
     },
     build: {
-      outDir: '../dist',
+      outDir: 'dist',
       emptyOutDir: true,
       sourcemap: false,
       chunkSizeWarningLimit: 900,
