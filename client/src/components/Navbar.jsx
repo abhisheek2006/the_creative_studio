@@ -127,9 +127,6 @@ export default function Navbar() {
               >
                 <IconWhatsApp width="16" height="16" /> WhatsApp
               </a>
-              <Link className="btn btn-outline btn-sm" to="/admin/login" onClick={() => setOpen(false)}>
-                Admin
-              </Link>
             </div>
           </div>
         </div>

@@ -42,7 +42,6 @@ export default function Footer() {
             <Link to="/about">About us</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/cart">Your cart</Link>
-            <Link to="/admin/login">Admin login</Link>
           </div>
 
           <div>
