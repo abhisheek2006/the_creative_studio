@@ -206,3 +206,9 @@ export const IconDownload = (props) => (
     <path d="M12 4v12M7 11l5 5 5-5M4 20h16" />
   </svg>
 );
+export const IconUser = (props) => (
+  <svg {...base} {...props}>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 20c0-4 3.6-6 8-6s8 2 8 6" />
+  </svg>
+);

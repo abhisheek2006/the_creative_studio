@@ -17,6 +17,8 @@ import Jobs from './pages/Jobs';
 import JobDetails from './pages/JobDetails';
 import TrackOrder from './pages/TrackOrder';
 import Policies from './pages/Policies';
+import Profile from './pages/Profile';
+import Orders from './pages/Orders';
 import NotFound from './pages/NotFound';
 
 import AdminLogin from './pages/admin/Login';
@@ -88,6 +90,8 @@ export default function App() {
                 <Route path="/jobs/:slug" element={<JobDetails />} />
                 <Route path="/track" element={<TrackOrder />} />
                 <Route path="/policies" element={<Policies />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/orders" element={<Orders />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </PublicLayout>

@@ -42,6 +42,8 @@ export default function Footer() {
             <Link to="/about">About us</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/cart">Your cart</Link>
+            <Link to="/profile">Profile</Link>
+            <Link to="/orders">My Orders</Link>
           </div>
 
           <div>

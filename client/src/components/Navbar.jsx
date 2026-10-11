@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useSettings } from '../context/SettingsContext';
 import { Logo, HeartDoodle } from './Doodles';
-import { IconCart, IconMenu, IconClose, IconInstagram, IconWhatsApp } from './Icons';
+import { IconCart, IconMenu, IconClose, IconInstagram, IconWhatsApp, IconUser } from './Icons';
 
 const LINKS = [
   { to: '/', label: 'Home', end: true },
@@ -76,6 +76,9 @@ export default function Navbar() {
             >
               <IconWhatsApp width="22" height="22" />
             </a>
+            <Link to="/profile" className="icon-btn" aria-label="Profile">
+              <IconUser />
+            </Link>
             <Link to="/cart" className="icon-btn" aria-label={`Cart, ${itemCount} items`}>
               <IconCart />
               {itemCount > 0 && <span className="cart-badge">{itemCount > 99 ? '99+' : itemCount}</span>}
@@ -115,6 +118,8 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
+            <Link to="/profile" onClick={() => setOpen(false)}>Profile</Link>
+            <Link to="/orders" onClick={() => setOpen(false)}>My Orders</Link>
             <Link to="/cart" onClick={() => setOpen(false)}>
               Cart {itemCount > 0 ? `(${itemCount})` : ''}
             </Link>
