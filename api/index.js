@@ -1,5 +1,3 @@
-// Vercel Serverless entry point.
-// All /api/* traffic (see vercel.json rewrites) is handled by the Express app.
+// Vercel Serverless entry point
 const app = require('../server/src/app');
-
 module.exports = app;
