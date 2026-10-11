@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /track
+
+# Replace YOUR-DOMAIN.com with the production domain before deploying.
+Sitemap: https://YOUR-DOMAIN.com/sitemap.xml
