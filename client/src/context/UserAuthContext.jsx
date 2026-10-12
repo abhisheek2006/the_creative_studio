@@ -1,11 +1,13 @@
 import { createContext, useContext, useCallback, useEffect, useState } from 'react';
 import api from '../services/api';
+import { useAuth } from './AuthContext';
 
 const UserAuthContext = createContext(null);
 
 export function UserAuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { setAdmin } = useAuth();
 
   const refreshMe = useCallback(async () => {
     const res = await api.get('/auth/me');
@@ -13,16 +15,25 @@ export function UserAuthProvider({ children }) {
     return res.data.data.user;
   }, []);
 
-  // Firebase Google popup -> backend exchange. Anyone can create an account.
+  // Firebase Google popup -> backend exchange. Anyone can create an account;
+// the site's configured admin email automatically signs in as admin instead.
   const loginWithGoogle = useCallback(async () => {
     const { getGoogleIdToken } = await import('../services/firebase');
     const { idToken } = await getGoogleIdToken();
     const res = await api.post('/auth/google', { idToken });
-    const { user: data, token } = res.data.data;
+    const { role, token, admin, user: data } = res.data.data;
+
+    if (role === 'admin') {
+      if (token) sessionStorage.setItem('tcs_admin_token', token);
+      sessionStorage.removeItem('tcs_user_token');
+      setAdmin(admin);
+      return { role: 'admin', admin };
+    }
+
     if (token) sessionStorage.setItem('tcs_user_token', token);
     setUser(data);
-    return data;
-  }, []);
+    return { role: 'user', user: data };
+  }, [setAdmin]);
 
   const logout = useCallback(async () => {
     try {

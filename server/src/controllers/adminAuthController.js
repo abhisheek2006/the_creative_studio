@@ -16,11 +16,28 @@ exports.login = asyncHandler(async (req, res) => {
 
   if (!email || !password) throw ApiError.badRequest('Email and password are required.');
 
-  const admin = await Admin.findOne({ email }).select('+passwordHash');
-  if (!admin || !admin.isActive) throw ApiError.unauthorized('Invalid credentials.');
+  // Website-config admin (ADMIN_EMAIL + ADMIN_INITIAL_PASSWORD from env) always
+  // works. The account is provisioned on first login so the site needs no
+  // separate database setup for the admin.
+  const envEmail = String(env.admin.email || '').trim().toLowerCase();
+  const isEnvAdmin = Boolean(
+    envEmail && env.admin.password && email === envEmail && password === env.admin.password
+  );
 
-  const ok = await admin.verifyPassword(password);
-  if (!ok) throw ApiError.unauthorized('Invalid credentials.');
+  let admin = await Admin.findOne({ email }).select('+passwordHash');
+
+  if (!admin && isEnvAdmin) {
+    admin = await Admin.create({
+      name: env.admin.name,
+      email,
+      passwordHash: await Admin.hashPassword(env.admin.password),
+      role: 'admin',
+      isActive: true,
+    });
+  }
+
+  const ok = admin ? await admin.verifyPassword(password) : false;
+  if (!admin || !admin.isActive || !ok) throw ApiError.unauthorized('Invalid credentials.');
 
   admin.lastLoginAt = new Date();
   await admin.save();

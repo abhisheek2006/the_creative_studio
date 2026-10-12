@@ -75,8 +75,8 @@ export default function Profile() {
   const handleUserGoogle = async () => {
     setUserBusy(true);
     try {
-      await loginWithGoogle();
-      toast.success('Signed in with Google');
+      const result = await loginWithGoogle();
+      toast.success(result?.role === 'admin' ? 'Signed in as admin' : 'Signed in with Google');
     } catch (err) {
       toast.error(extractError(err));
     } finally {
@@ -181,7 +181,7 @@ export default function Profile() {
                   {userBusy ? 'Signing in…' : 'Continue with Google'}
                 </button>
                 <p className="small muted" style={{ textAlign: 'center', marginTop: '1rem' }}>
-                  New here? You get an account automatically on first sign-in.
+                  New here? You get an account automatically on first sign-in. The studio admin email is recognized automatically too.
                 </p>
               </>
             )}
