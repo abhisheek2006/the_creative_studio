@@ -22,7 +22,12 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem('tcs_admin_token');
+  const url = config.url || '';
+  // Admin routes use the admin token; customer /auth/* routes use the user token.
+  // Public endpoints send no token.
+  const adminToken = sessionStorage.getItem('tcs_admin_token');
+  const userToken = sessionStorage.getItem('tcs_user_token');
+  const token = url.startsWith('/admin') ? adminToken : url.startsWith('/auth') ? userToken : adminToken || userToken;
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
@@ -31,13 +36,15 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired / invalid — clear admin session so /admin routes redirect.
+      // Token expired / invalid — clear sessions so protected routes redirect.
       const path = error.config?.url || '';
       if (path.includes('/admin/')) {
         sessionStorage.removeItem('tcs_admin_token');
         if (window.location.pathname.startsWith('/admin') && !window.location.pathname.endsWith('/login')) {
           window.location.assign('/admin/login');
         }
+      } else if (path.startsWith('/auth/')) {
+        sessionStorage.removeItem('tcs_user_token');
       }
     }
     return Promise.reject(error);

@@ -8,6 +8,9 @@ export default defineConfig(({ command }) => {
 
   return {
     plugins: [react()],
+    // Load VITE_* environment variables from the repository-root .env
+    // (the same file the backend reads), not just client/.env.
+    envDir: '..',
     server: {
       port: 5173,
       proxy: {

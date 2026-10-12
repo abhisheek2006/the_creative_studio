@@ -7,7 +7,9 @@ const contactController = require('../controllers/contactController');
 const jobController = require('../controllers/jobController');
 const settingsController = require('../controllers/settingsController');
 const uploadController = require('../controllers/uploadController');
-const { publicFormLimiter } = require('../middleware/rateLimit');
+const userAuthController = require('../controllers/userAuthController');
+const { publicFormLimiter, loginLimiter } = require('../middleware/rateLimit');
+const { requireUser } = require('../middleware/userAuth');
 
 const router = Router();
 
@@ -15,6 +17,12 @@ const router = Router();
 router.get('/health', (_req, res) => {
   res.status(200).json({ success: true, data: { healthy: true, service: 'tcs-api' } });
 });
+
+// Customer auth (Google sign-in)
+router.post('/auth/google', loginLimiter, userAuthController.googleLogin);
+router.post('/auth/logout', userAuthController.logout);
+router.get('/auth/me', requireUser, userAuthController.me);
+router.patch('/auth/me', requireUser, userAuthController.updateMe);
 
 // Public settings
 router.get('/settings/public', settingsController.getPublicSettings);

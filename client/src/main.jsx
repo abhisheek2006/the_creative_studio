@@ -7,6 +7,7 @@ import { ConfirmProvider } from './context/ConfirmContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { UserAuthProvider } from './context/UserAuthContext';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -16,9 +17,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <ConfirmProvider>
           <SettingsProvider>
             <AuthProvider>
-              <CartProvider>
-                <App />
-              </CartProvider>
+              <UserAuthProvider>
+                <CartProvider>
+                  <App />
+                </CartProvider>
+              </UserAuthProvider>
             </AuthProvider>
           </SettingsProvider>
         </ConfirmProvider>

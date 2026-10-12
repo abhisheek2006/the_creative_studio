@@ -43,6 +43,12 @@ const env = {
     forcePathStyle: toBool(process.env.R2_FORCE_PATH_STYLE, true),
   },
   maxImageMb: parseInt(process.env.MAX_IMAGE_MB || '5', 10),
+  firebase: {
+    projectId: process.env.FIREBASE_PROJECT_ID || '',
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL || '',
+    // Stored as a single line with literal "\n" escapes.
+    privateKey: (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
+  },
   admin: {
     name: process.env.ADMIN_NAME || 'Studio Admin',
     email: process.env.ADMIN_EMAIL || '',
@@ -54,6 +60,9 @@ env.isProd = env.nodeEnv === 'production';
 env.isVercel = Boolean(process.env.VERCEL);
 env.r2Enabled = Boolean(
   env.r2.accessKeyId && env.r2.secretAccessKey && env.r2.bucket && env.r2.endpoint
+);
+env.firebaseEnabled = Boolean(
+  env.firebase.projectId && env.firebase.clientEmail && env.firebase.privateKey
 );
 
 module.exports = env;

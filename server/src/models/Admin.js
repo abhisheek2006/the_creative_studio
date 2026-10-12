@@ -12,7 +12,8 @@ const adminSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
-    passwordHash: { type: String, required: true, select: false },
+    // Optional: admins provisioned via Google sign-in have no password.
+    passwordHash: { type: String, default: '', select: false },
     role: {
       type: String,
       enum: ['admin', 'manager'],
@@ -25,6 +26,7 @@ const adminSchema = new mongoose.Schema(
 );
 
 adminSchema.methods.verifyPassword = function verifyPassword(plain) {
+  if (!this.passwordHash) return Promise.resolve(false);
   return bcrypt.compare(plain, this.passwordHash);
 };
 

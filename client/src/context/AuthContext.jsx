@@ -16,6 +16,17 @@ export function AuthProvider({ children }) {
     return data;
   }, []);
 
+  // Firebase Google popup -> backend exchange. Only admin emails are admitted.
+  const loginWithGoogle = useCallback(async () => {
+    const { getGoogleIdToken } = await import('../services/firebase');
+    const { idToken } = await getGoogleIdToken();
+    const res = await api.post('/admin/auth/google', { idToken });
+    const { admin: data, token } = res.data.data;
+    if (token) sessionStorage.setItem('tcs_admin_token', token);
+    setAdmin(data);
+    return data;
+  }, []);
+
   const logout = useCallback(async () => {
     try {
       await api.post('/admin/auth/logout');
@@ -47,7 +58,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ admin, loading, tried, login, logout }}>
+    <AuthContext.Provider value={{ admin, loading, tried, login, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

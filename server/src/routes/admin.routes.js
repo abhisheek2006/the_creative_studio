@@ -16,6 +16,7 @@ const router = Router();
 
 // ---- Authentication (public endpoints) ----
 router.post('/auth/login', loginLimiter, adminAuthController.login);
+router.post('/auth/google', loginLimiter, adminAuthController.googleLogin);
 router.post('/auth/logout', adminAuthController.logout);
 router.get('/auth/me', requireAuth, adminAuthController.me);
 

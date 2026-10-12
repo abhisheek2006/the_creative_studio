@@ -59,7 +59,7 @@ export default function Navbar() {
 
           <div className="nav-actions">
             <a
-              className="icon-btn"
+              className="icon-btn social-icon"
               href={instagram}
               target="_blank"
               rel="noreferrer noopener"
@@ -68,7 +68,7 @@ export default function Navbar() {
               <IconInstagram />
             </a>
             <a
-              className="icon-btn"
+              className="icon-btn social-icon"
               href={`https://wa.me/${String(whatsapp).replace(/\D/g, '')}`}
               target="_blank"
               rel="noreferrer noopener"
@@ -124,6 +124,14 @@ export default function Navbar() {
               Cart {itemCount > 0 ? `(${itemCount})` : ''}
             </Link>
             <div style={{ marginTop: '1.4rem', display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+              <a
+                className="btn btn-whatsapp btn-sm"
+                href={instagram}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <IconInstagram /> Instagram
+              </a>
               <a
                 className="btn btn-whatsapp btn-sm"
                 href={`https://wa.me/${String(whatsapp).replace(/\D/g, '')}`}
